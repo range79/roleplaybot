@@ -1,13 +1,42 @@
 services:
   ollama:
-    image: 'ollama/ollama:latest'
+    build:
+      context: ./ollama
+    container_name: ollama
     ports:
-      - '11434'
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
   postgres:
-    image: 'postgres:latest'
+    image: postgres:latest
+    container_name: postgres
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: secret
     ports:
-      - '5432'
+      - "5432:5432"
+    volumes:
+    - postgres_data:/var/lib/postgresql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+#  pierrot-bot:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: pierrot-bot
+#    depends_on:
+#      - ollama
+#      - postgres
+#    environment:
+#    restart: unless-stopped
+
+volumes:
+  ollama_data:
+  postgres_data:
