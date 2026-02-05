@@ -7,7 +7,7 @@ plugins {
 
 group = 'com.range'
 version = '0.0.1-SNAPSHOT'
-description = 'PierrotDiscorcdBot'
+description = 'PierrotDiscordBot'
 
 java {
     toolchain {
