@@ -1,4 +1,4 @@
-package com.range.pierrotdiscorcdbot.configuration
+package com.range.pierrotdiscorcdbot.config
 
 import com.range.pierrotdiscorcdbot.properties.BotProperties
 import net.dv8tion.jda.api.JDA
