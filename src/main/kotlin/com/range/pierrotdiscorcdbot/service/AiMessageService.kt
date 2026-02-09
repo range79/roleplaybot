@@ -1,6 +1,5 @@
 package com.range.pierrotdiscorcdbot.service
 
-import com.range.pierrotdiscorcdbot.domain.repository.ChatMemoryRepository
 import org.springframework.ai.chat.client.ChatClient
 
 import org.springframework.stereotype.Service
@@ -8,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class AiMessageService(
     private val chatClient: ChatClient,
-    private val chatMemoryRepository: ChatMemoryRepository
+    private val chatMemoryService: ChatMemoryService,
 ) {
 
     private val SYSTEM_PROMPT = """
@@ -17,13 +16,18 @@ class AiMessageService(
         You reply in Turkish.
     """.trimIndent()
 
-    fun sendMessage(message: String): String {
+    fun sendMessage(message: String): String? {
 
-        val prompt = chatClient.prompt()
+        val response = chatClient.prompt()
             .system(SYSTEM_PROMPT)
             .user(message)
             .call()
+        val aiReply = response.content() ?: return null
 
-        return prompt.content()?:"An unknown error occurred write to range79 lol"
+        chatMemoryService.save(message,false)
+
+        chatMemoryService.save(aireply,true)
+        return aiReply
+
     }
 }
