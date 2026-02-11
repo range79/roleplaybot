@@ -2,6 +2,10 @@ package com.range.pierrotdiscorcdbot.listener
 
 import com.range.pierrotdiscorcdbot.properties.BotProperties
 import com.range.pierrotdiscorcdbot.service.AiMessageService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.slf4j.LoggerFactory
@@ -23,14 +27,32 @@ class BotMessageListener(
             event.message.reply("You are not ${botProperties.ownerUsername}").queue()
             return
         }
-        val reply = aiMessageService.sendMessage(event.message.contentRaw)
-        if (reply== null){
-            event.message.reply("AI is not responding. Please try again later.").queue()
-            LOG.error("AI is not responding. Please try again later.")
-            return
-        }
-        event.message.reply(reply).queue()
+        CoroutineScope(Dispatchers.IO).launch {
 
+            try {
+                val reply = aiMessageService.sendMessage(event.message.contentRaw)
+
+                withContext(Dispatchers.Main) {
+                    if (reply == null) {
+                        event.message
+                            .reply("AI is not responding. Please try again later.")
+                            .queue()
+                    } else {
+                        event.message.reply(reply).queue()
+                    }
+                }
+
+            } catch (e: Exception) {
+
+                LOG.error("AI error", e)
+
+                withContext(Dispatchers.Main) {
+                    event.message
+                        .reply("Internal error occurred.")
+                        .queue()
+                }
+            }
+        }
     }
 
 }
