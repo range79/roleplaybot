@@ -15,7 +15,6 @@ class BotMessageListener(
 ) : ListenerAdapter() {
     companion object {
         private val LOG = LoggerFactory.getLogger(BotMessageListener::class.java)
-
     }
 
     override fun onMessageReceived(event: MessageReceivedEvent) {
