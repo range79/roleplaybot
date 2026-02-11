@@ -6,20 +6,22 @@ import org.springframework.ai.document.Document
 import org.springframework.ai.vectorstore.SearchRequest
 import org.springframework.ai.vectorstore.VectorStore
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class ChatVectorServiceImpl(
     private val vectorStore: VectorStore
 ) : ChatVectorService {
-
     override fun save(chatMemoryEntity: ChatMemoryEntity) {
-        val metadata: MutableMap<String, out Any?> = mutableMapOf(
-            "messageId" to (chatMemoryEntity.id),
+        val id = requireNotNull(chatMemoryEntity.id) { "ChatMemoryEntity.id null olamaz (save'den sonra gelmeli)" }
+
+        val metadata: MutableMap<String, Any> = mutableMapOf(
+            "messageId" to id,
             "isBot" to chatMemoryEntity.isBot
         )
 
         val doc = Document(
-            (chatMemoryEntity.id).toString(),
+            id.toString(),
             chatMemoryEntity.content,
             metadata
         )
@@ -39,7 +41,7 @@ class ChatVectorServiceImpl(
         return results.map { doc ->
 
             ChatMemoryEntity(
-                id = (doc.metadata["messageId"] as? Number)?.toLong(),
+                id = (doc.metadata["messageId"] as? UUID),
                 content = doc.text ?: "",
                 isBot = doc.metadata["isBot"] as? Boolean ?: false
             )

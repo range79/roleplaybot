@@ -9,22 +9,21 @@ services:
       - ollama_data:/root/.ollama
     restart: unless-stopped
   postgres:
-    image: postgres:latest
-    container_name: postgres
-    environment:
-      POSTGRES_DB: mydatabase
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: secret
+    image: 'pgvector/pgvector:pg16'
+    container_name: postgresx
     ports:
       - "5432:5432"
     volumes:
     - postgres_data:/var/lib/postgresql
+    - ./postgres/init:/docker-entrypoint-initdb.d:ro
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U myuser"]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
       interval: 10s
       timeout: 5s
       retries: 5
+    env_file:
+      - .env
 
 #  pierrot-bot:
 #    build:

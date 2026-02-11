@@ -7,14 +7,15 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import java.time.LocalDateTime
+import java.util.UUID
 import javax.xml.crypto.dsig.keyinfo.PGPData
 
 @Entity
 @Table(name = "chat_memory")
 data class ChatMemoryEntity (
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
+    @GeneratedValue(strategy = GenerationType.UUID)
+    val id: UUID? = null,
 
     @Column(columnDefinition = "TEXT")
     val content: String,
