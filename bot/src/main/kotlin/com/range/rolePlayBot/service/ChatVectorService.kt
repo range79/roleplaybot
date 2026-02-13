@@ -1,8 +1,8 @@
 package com.range.rolePlayBot.service
 
-import com.range.rolePlayBot.domain.entity.ChatMemoryEntity
+import com.range.rolePlayBot.domain.entity.DiscordChatMemoryEntity
 
 interface ChatVectorService {
-    fun save(chatMemoryEntity: ChatMemoryEntity)
-    fun search(text: String): List<ChatMemoryEntity>
+    fun save(discordChatMemoryEntity: DiscordChatMemoryEntity)
+    fun search(text: String): List<DiscordChatMemoryEntity>
 }

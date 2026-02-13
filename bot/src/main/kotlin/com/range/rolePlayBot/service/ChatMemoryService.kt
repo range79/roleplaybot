@@ -1,11 +1,11 @@
 package com.range.rolePlayBot.service
 
-import com.range.rolePlayBot.domain.entity.ChatMemoryEntity
+import com.range.rolePlayBot.domain.entity.DiscordChatMemoryEntity
 
 
 interface ChatMemoryService {
-    fun save(content: String,isBot: Boolean): ChatMemoryEntity
-    fun findLast30Chat():List<ChatMemoryEntity>
+    fun save(content: String,isBot: Boolean): DiscordChatMemoryEntity
+    fun findLast30Chat():List<DiscordChatMemoryEntity>
 
 
 }

@@ -1,6 +1,6 @@
 package com.range.rolePlayBot.service.impl
 
-import com.range.rolePlayBot.domain.entity.ChatMemoryEntity
+import com.range.rolePlayBot.domain.entity.DiscordChatMemoryEntity
 import com.range.rolePlayBot.service.ChatVectorService
 import org.springframework.ai.document.Document
 import org.springframework.ai.vectorstore.SearchRequest
@@ -12,24 +12,24 @@ import java.util.UUID
 class ChatVectorServiceImpl(
     private val vectorStore: VectorStore
 ) : ChatVectorService {
-    override fun save(chatMemoryEntity: ChatMemoryEntity) {
-        val id = requireNotNull(chatMemoryEntity.id) { "ChatMemoryEntity.id null olamaz (save'den sonra gelmeli)" }
+    override fun save(discordChatMemoryEntity: DiscordChatMemoryEntity) {
+        val id = requireNotNull(discordChatMemoryEntity.id) { "ChatMemoryEntity.id null olamaz (save'den sonra gelmeli)" }
 
         val metadata: MutableMap<String, Any> = mutableMapOf(
             "messageId" to id,
-            "isBot" to chatMemoryEntity.isBot
+            "isBot" to discordChatMemoryEntity.isBot
         )
 
         val doc = Document(
             id.toString(),
-            chatMemoryEntity.content,
+            discordChatMemoryEntity.content,
             metadata
         )
 
         vectorStore.add(listOf(doc))
     }
 
-    override fun search(text: String): List<ChatMemoryEntity> {
+    override fun search(text: String): List<DiscordChatMemoryEntity> {
 
         val request = SearchRequest.builder()
             .query(text)
@@ -40,7 +40,7 @@ class ChatVectorServiceImpl(
 
         return results.map { doc ->
 
-            ChatMemoryEntity(
+            DiscordChatMemoryEntity(
                 id = (doc.metadata["messageId"] as? UUID),
                 content = doc.text ?: "",
                 isBot = doc.metadata["isBot"] as? Boolean ?: false

@@ -1,6 +1,6 @@
 package com.range.rolePlayBot.service.impl
 
-import com.range.rolePlayBot.domain.entity.ChatMemoryEntity
+import com.range.rolePlayBot.domain.entity.DiscordChatMemoryEntity
 import com.range.rolePlayBot.service.AiMessageService
 import com.range.rolePlayBot.service.ChatMemoryService
 import com.range.rolePlayBot.service.ChatVectorService
@@ -59,15 +59,15 @@ LOG.info(contextMessage)
     private fun cut(s: String, max: Int = 400) =
         if (s.length <= max) s else s.take(max) + "…"
 
-    private fun buildHistoryPrompt(messages: List<ChatMemoryEntity>) =
+    private fun buildHistoryPrompt(messages: List<DiscordChatMemoryEntity>) =
         messages.joinToString("\n") {
-            if (it.isBot) "Pierrot: ${cut(it.content)}" else "User: ${cut(it.content)}"
+            if (it.isBot) "RolePlayBot: ${cut(it.content)}" else "User: ${cut(it.content)}"
         }
 
-    private fun buildMemoryBlock(memories: List<ChatMemoryEntity>): String {
+    private fun buildMemoryBlock(memories: List<DiscordChatMemoryEntity>): String {
         if (memories.isEmpty()) return "(none)"
         return memories.joinToString("\n") {
-            val role = if (it.isBot) "Pierrot" else "User"
+            val role = if (it.isBot) "RolePlayBot" else "User"
             "- $role: ${cut(it.content)}"
         }
     }

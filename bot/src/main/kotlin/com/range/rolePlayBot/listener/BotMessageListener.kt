@@ -21,6 +21,7 @@ class BotMessageListener(
     }
 
     override fun onMessageReceived(event: MessageReceivedEvent) {
+        if (!event.message.mentions.isMentioned(event.jda.selfUser)) return
         if (event.author.isBot) return
         if (event.author.name != botProperties.ownerUsername) {
             event.message.reply("You are not ${botProperties.ownerUsername}").queue()

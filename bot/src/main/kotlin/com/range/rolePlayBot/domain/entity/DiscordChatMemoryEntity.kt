@@ -11,7 +11,7 @@ import java.util.UUID
 
 @Entity
 @Table(name = "chat_memory")
-data class ChatMemoryEntity (
+data class DiscordChatMemoryEntity (
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     val id: UUID? = null,
