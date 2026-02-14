@@ -4,7 +4,7 @@ LABEL authors="range79"
 
 WORKDIR /app
 
-COPY bot/build/ app.jar
+COPY bot/build/libs/app.jar app.jar
 
 EXPOSE 8080
 

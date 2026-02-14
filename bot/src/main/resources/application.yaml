@@ -1,15 +1,15 @@
 spring:
   application:
-    name: PierrotDiscordBot
+    name: rolePlayBot
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB}
+    url: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
 
   ai:
     ollama:
-      base-url: http://localhost:11434
+      base-url: http://ollama:11434
 
       chat:
         options:

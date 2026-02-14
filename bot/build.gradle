@@ -8,12 +8,16 @@ plugins {
 
 group = 'com.range'
 version = '0.0.1-SNAPSHOT'
-description = 'PierrotDiscordBot'
+description = 'roleplaybot'
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+}
+
+tasks.named('bootJar') {
+    archiveFileName = "app.jar"
 }
 
 repositories {
