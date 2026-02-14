@@ -40,5 +40,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/pierrot-discord-bot:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/pierrot-discord-bot:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/roleplay-discord-bot:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/roleplay-discord-bot:${{ github.sha }}
