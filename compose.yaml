@@ -25,16 +25,17 @@ services:
     env_file:
       - .env
 
-#  pierrot-bot:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    container_name: pierrot-bot
-#    depends_on:
-#      - ollama
-#      - postgres
-#    environment:
-#    restart: unless-stopped
+  roleplay-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pierrot-bot
+    depends_on:
+      - ollama
+      - postgres
+    env_file:
+      - .env
+    restart: unless-stopped
 
 volumes:
   ollama_data:

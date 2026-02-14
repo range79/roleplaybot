@@ -4,9 +4,7 @@ enum class Mood {
     HAPPY,
     SAD,
     ANGRY,
+    TIRED,
     CALM,
-    EXCITED,
-    DEPRESSED,
-    CONFUSED,
-    TIRED
+    ANXIOUS
 }

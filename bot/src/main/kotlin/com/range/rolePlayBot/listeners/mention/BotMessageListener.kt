@@ -1,4 +1,4 @@
-package com.range.rolePlayBot.listener
+package com.range.rolePlayBot.listeners.mention
 
 import com.range.rolePlayBot.properties.BotProperties
 import com.range.rolePlayBot.service.AiMessageService
@@ -23,19 +23,32 @@ class BotMessageListener(
     override fun onMessageReceived(event: MessageReceivedEvent) {
         if (!event.message.mentions.isMentioned(event.jda.selfUser)) return
         if (event.author.isBot) return
-        if (event.author.name != botProperties.ownerUsername) {
-            event.message.reply("You are not ${botProperties.ownerUsername}").queue()
+        if (event.author.name != botProperties.clientUsername) {
+            event.message.reply("You are not ${botProperties.clientUsername}").queue()
             return
         }
 
+        val prompt = event.message.contentRaw
+            .replace(event.jda.selfUser.asMention, "")
+            .trim()
+
+        if (prompt.isBlank()) {
+            event.message.reply("Write something after mentioning me 🙂").queue()
+            return
+        }
+        event.channel.sendTyping().queue()
+
         appScope.launch {
             try {
-                val reply = aiMessageService.sendMessage(event.message.contentRaw)
-                event.message.reply(reply ?: "AI is not responding. Please try again later.").queue()
+                val reply = aiMessageService.sendMessage(prompt)
+                    ?: "AI is not responding. Please try again later."
+
+                event.message.reply(reply).queue()
             } catch (e: Exception) {
                 LOG.error("AI error", e)
                 event.message.reply("Internal error occurred.").queue()
             }
         }
+
     }
 }

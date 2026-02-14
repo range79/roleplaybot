@@ -30,5 +30,6 @@ spring:
     baseline-on-migrate: true
 
 bot:
-  owner-username: ${DISCORD_USERNAME}
   token: ${DISCORD_TOKEN}
+  client-username: ${DISCORD_USERNAME}
+  owner-username: ${DISCORD_OWNER}
