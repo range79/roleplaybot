@@ -10,7 +10,7 @@ You need Docker to run this, otherwise you’ll suffer.
 
 ---
 
-## ⚙️ What You Need
+##  What You Need
 
 - Docker
 - Discord bot token
