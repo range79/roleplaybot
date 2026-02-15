@@ -41,5 +41,7 @@ jobs:
           tags: |
             funcrange1/roleplay-ollama:latest
             funcrange1/roleplay-ollama:${{ github.sha }}
+          provenance: false
+          sbom: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
