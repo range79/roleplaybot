@@ -1,0 +1,4 @@
+name: ollama-dockerhub.yml
+on:
+
+jobs:
