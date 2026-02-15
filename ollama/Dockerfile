@@ -1,13 +1,9 @@
 FROM ollama/ollama:latest
 
-WORKDIR /app
+WORKDIR /ollama
 
-
-
-COPY models/ /ollama/models/
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 11434 8080
-
+EXPOSE 11434
 ENTRYPOINT ["/entrypoint.sh"]
