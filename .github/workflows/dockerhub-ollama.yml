@@ -8,6 +8,9 @@ on:
       - ".github/workflows/dockerhub-ollama.yml"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -34,8 +37,9 @@ jobs:
           context: ./ollama
           file: ./ollama/Dockerfile
           push: true
+          platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/roleplay-discord-bot:ollama
-            ${{ secrets.DOCKERHUB_USERNAME }}/roleplay-discord-bot:ollama-${{ github.sha }}
+            funcrange1/roleplay-ollama:latest
+            funcrange1/roleplay-ollama:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
