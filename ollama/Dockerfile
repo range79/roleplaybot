@@ -1,12 +1,13 @@
 FROM ollama/ollama:latest
 
-WORKDIR /ollama
-COPY Modelfile /ollama/Modelfile
+WORKDIR /app
 
-RUN ollama serve & \
-    sleep 6 && \
-    ollama pull llama3.2:3b && \
-    ollama pull nomic-embed-text && \
-    ollama create character -f /ollama/Modelfile
 
-EXPOSE 11434
+
+COPY models/ /ollama/models/
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+EXPOSE 11434 8080
+
+ENTRYPOINT ["/entrypoint.sh"]
