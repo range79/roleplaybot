@@ -37,7 +37,6 @@ jobs:
           context: ./ollama
           file: ./ollama/Dockerfile
           push: true
-          platforms: linux/amd64,linux/arm64
           tags: |
             funcrange1/roleplay-ollama:latest
             funcrange1/roleplay-ollama:${{ github.sha }}
