@@ -35,7 +35,7 @@ jobs:
           cp Dockerfile bundle/
           cp example.env bundle/.env.example
           cp ollama/entrypoint.sh bundle/ollama/
-          cp ollama/models/Modelfile bundle/Modelfile
+          cp ollama/models/Modelfile.example bundle/Modelfile.example
           cp bot/build/libs/*.jar bundle/bot/app.jar
           cp README.md bundle/
 
