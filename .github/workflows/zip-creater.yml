@@ -35,14 +35,14 @@ jobs:
 
       - name: Prepare Bundle
         run: |
-          mkdir -p bundle/bot
+          mkdir -p bundle/bot/build/libs
           mkdir -p bundle/ollama
           cp compose.yaml bundle/docker-compose.yml
           cp Dockerfile bundle/
           cp example.env bundle/.env.example
           cp ollama/entrypoint.sh bundle/ollama/
           cp ollama/models/Modelfile.example bundle/Modelfile.example
-          cp bot/build/libs/*.jar bundle/bot/app.jar
+          cp bot/build/libs/app.jar bundle/bot/build/libs/app.jar
           cp README.md bundle/
 
       - name: Create ZIP
