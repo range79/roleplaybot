@@ -2,8 +2,7 @@ name: Build Release Bundle
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -14,11 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup JDK 21
-        uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
@@ -30,37 +27,28 @@ jobs:
           chmod +x ./gradlew
           ./gradlew bootJar -x test
 
-      - name: Prepare Bundle Structure
+      - name: Prepare Bundle
         run: |
           mkdir -p bundle/bot
           mkdir -p bundle/ollama
-          
           cp compose.yaml bundle/docker-compose.yml
           cp Dockerfile bundle/
+          cp example.env bundle/.env.example
           cp ollama/entrypoint.sh bundle/ollama/
-          cp ollama/models/Modelfile.example bundle/
-          
-          JAR=$(ls bot/build/libs/*.jar | head -n 1)
-          cp "$JAR" bundle/bot/app.jar
-          
-          cp example.env bundle/example.env   
-
-      - name: Set Bundle Name
-        run: echo "BUNDLE=roleplay-bundle-${{ github.sha }}.zip" >> $GITHUB_ENV
+          cp ollama/models/Modelfile bundle/Modelfile
+          cp bot/build/libs/*.jar bundle/bot/app.jar
+          cp README.md bundle/
 
       - name: Create ZIP
         run: |
           cd bundle
-          zip -r ../$BUNDLE .
+          zip -r ../roleplay-bundle-main.zip .
 
-      - name: Create GitHub Release
+      - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: build-${{ github.run_number }}
-          name: Build ${{ github.run_number }}
-          body: |
-            Automated build from commit:
-            ${{ github.sha }}
-          files: ${{ env.BUNDLE }}
+          tag_name: main-release
+          name: Main Build
+          files: roleplay-bundle-main.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
