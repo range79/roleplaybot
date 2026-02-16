@@ -20,8 +20,13 @@ jobs:
           distribution: temurin
           java-version: 21
           cache: gradle
+
       - name: Get version from Gradle
-        run: echo "VERSION=$(./gradlew properties -q | grep '^version:' | awk '{print $2}')" >> $GITHUB_ENV
+        working-directory: bot
+        run: |
+          chmod +x ./gradlew
+          echo "VERSION=$(./gradlew properties -q | grep '^version:' | awk '{print $2}')" >> $GITHUB_ENV
+
       - name: Build Jar
         working-directory: bot
         run: |
@@ -43,13 +48,13 @@ jobs:
       - name: Create ZIP
         run: |
           cd bundle
-          zip -r ../roleplay-bundle-main.zip .
+          zip -r ../roleplay-bundle-${{ env.VERSION }}.zip .
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ github.run_number }}
-          name: "roleplay bot ${{ env.VERSION }}"
-          files: roleplay-bundle-main.zip
+          tag_name: v${{ env.VERSION }}
+          name: roleplay-bot-${{ env.VERSION }}
+          files: roleplay-bundle-${{ env.VERSION }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
