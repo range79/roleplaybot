@@ -1,6 +1,6 @@
 ## Discord Role Play Bot
 
-Hii  
+Hii
 
 This is a role play bot for Discord.  
 Built with **Spring Boot + Ollama**. Runs AI locally.
@@ -22,8 +22,6 @@ HAPPY, SAD, ANGRY, TIRED, CALM, ANXIOUS
 
 Commands:
 
-
-
 /mood → checks the mentioned user's mood
 /make-happy → gives tips to make the client user feel better
 
@@ -38,21 +36,33 @@ Just use Docker.
 
 ---
 
-## .env File
+# how to downland and use?
 
-Create `.env` and fill this:
+- Download the latest release bundle automatically
+ 
+```shell
+curl -s https://api.github.com/repos/range79/roleplaybot/releases/latest \
+| grep browser_download_url \
+| grep bundle \
+| cut -d '"' -f 4 \
+| xargs curl -L -o bundle.zip
+```
 
-```env
-DISCORD_USERNAME=WHO-WANT-BE-REPLIED
-DISCORD_TOKEN=
-DISCORD_OWNER=WHO-WANT-CHECK-USER-HEALT
+-  create folder , copy files to folder and change directory
 
-POSTGRES_DB=
-POSTGRES_USER=
-POSTGRES_PASSWORD=
-````
 
-Don’t leak your token.
+```shell
+mkdir roleplay-bundle
+unzip bundle.zip -d roleplay-bundle
+cd roleplay-bundle
+```
+
+- .env File
+
+Create `.env` file like env.example
+
+- creating character modelfile
+
 
 ---
 
@@ -61,6 +71,41 @@ Don’t leak your token.
 ```bash
 docker compose up -d
 ```
+
+4. Create AI Character (Modelfile)
+
+Go to models folder:
+
+```bash
+cd ollama/models
+````
+
+Copy example:
+
+```bash
+cp Modelfile.example Modelfile
+```
+
+Edit file:
+
+```bash
+nano Modelfile
+```
+
+Example:
+
+```txt
+FROM llama3.2:3b
+
+SYSTEM """
+You are a friendly roleplay character.
+You talk in a fun and emotional way.
+You care about the user.
+"""
+```
+- docker compose up -d 
+
+
 
 Bot is online.
 
