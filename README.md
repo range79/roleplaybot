@@ -57,22 +57,12 @@ unzip bundle.zip -d roleplay-bundle
 cd roleplay-bundle
 ```
 
-- .env File
-
-Create `.env` file like env.example
-
-- creating character modelfile
 
 
----
+- Create `.env` file like env.example
 
-## Run
 
-```bash
-docker compose up -d
-```
-
-4. Create AI Character (Modelfile)
+### Create AI Character (Modelfile)
 
 Go to models folder:
 
@@ -103,7 +93,11 @@ You talk in a fun and emotional way.
 You care about the user.
 """
 ```
-- docker compose up -d 
+## Run
+
+```bash
+docker compose up -d
+```
 
 
 
